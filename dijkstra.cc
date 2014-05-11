@@ -12,9 +12,9 @@ typedef int Weight;
 typedef int Distance;
 typedef set<pair<Distance, Vertex> > PriorityQueue;
 
-vector<pair<Vertex,Weight> > adj[N];
-
 int n, m;
+vector<pair<Vertex,Weight> > adj[N];
+Distance dist[N];
 
 void read_graph() {
   scanf("%d %d", &n, &m);
@@ -32,13 +32,11 @@ pair<Distance, Vertex> pop_min(PriorityQueue* pq) {
   return result;
 }
 
-Distance dist[N];
 void adjust(PriorityQueue* pq, Vertex k, Distance d) {
   pq->erase(make_pair(dist[k], k));
   pq->insert(make_pair(d, k));
   dist[k] = d;
 }
-
 
 int main() {
   read_graph();
