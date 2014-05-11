@@ -8,7 +8,6 @@ import Control.Monad
 import Control.Applicative
 import qualified Data.ByteString.Char8 as B
 
-
 type Vertex = Int
 type Weight = Int
 type Graph = Array Vertex [(Vertex, Weight)]
@@ -27,9 +26,9 @@ dijkstra graph src = go $ Dijkstra (adjust (\_ -> 0) src initial) []
   where initial = fromList [(i :-> infinity) | i <- range (bounds graph)]
         go (Dijkstra pq dist) = case minView pq of
 	    Nothing -> dist 
-	    Just ((v :-> w), pq') -> go $ Dijkstra (update pq' v w) ((v, w) : dist)
-        update pq v w = foldl' relax pq [(nv, w + nw) | (nv, nw) <- graph ! v]
-        relax pq (nv, nw) = adjust (\w -> min w nw) nv pq
+	    Just ((k :-> d), pq') -> go $ Dijkstra (update pq' k d) ((k, d) : dist)
+        update pq k d = foldl' relax pq [(v, d + w) | (v, w) <- graph ! k]
+        relax pq (v, d') = adjust (\d -> min d d') v pq
 
 readIntList = (map (fst . fromJust . B.readInt) . (B.split ' ')) <$> B.getLine
 
