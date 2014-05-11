@@ -10,18 +10,18 @@ import qualified Data.ByteString.Char8 as B
 
 type Vertex = Int
 type Weight = Int
+type Distance = Int 
 type Graph = Array Vertex [(Vertex, Weight)]
 type Edge = (Vertex, (Vertex, Weight))
-type Distance = (Vertex, Weight)
 
 infinity = 100000000
 
 graph :: (Vertex, Vertex) -> [Edge] -> Graph
 graph (min, max) edges = accumArray (flip (:)) [] (min, max) edges
 
-data Dijkstra = Dijkstra (PSQ Vertex Weight) [Distance]
+data Dijkstra = Dijkstra (PSQ Vertex Distance) [(Vertex, Distance)]
 
-dijkstra :: Graph -> Vertex -> [Distance]
+dijkstra :: Graph -> Vertex -> [(Vertex, Distance)]
 dijkstra graph src = go $ Dijkstra (adjust (\_ -> 0) src initial) []
   where initial = fromList [(i :-> infinity) | i <- range (bounds graph)]
         go (Dijkstra pq dist) = case minView pq of
@@ -36,5 +36,5 @@ main = do [n, m] <- readIntList
           edges <- replicateM m $ do
             [src, dst, weight] <- readIntList 
             return (src, (dst, weight))
-          print $ Data.List.lookup n (dijkstra (graph (1, n) edges) 1)
+          print $ fromJust $ Data.List.lookup n (dijkstra (graph (1, n) edges) 1)
           
