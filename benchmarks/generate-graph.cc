@@ -3,13 +3,23 @@
 #include <vector>
 using namespace std;
 
-const int N = 1000;
 
-int adj[N][N];
-
-int main() {
+int main(int argc, char *argv[])
+{
+  vector< vector<int> > adj;
+  
   int n = 1000;
   int m = 100000;
+  
+  if (argc == 3)
+  {
+    sscanf(argv[1], "%d", &n);
+    sscanf(argv[2], "%d", &m);
+  }
+
+  adj.resize(n);
+  for(int i = 0; i < n; i++) adj[i].assign(n, 0);
+
   for (int i = 0; i < m; i++) {
     int a = rand() % n;
     int b = rand() % n;
