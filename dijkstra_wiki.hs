@@ -6,7 +6,6 @@ import Data.Set as S
 
 import Data.List
 import Data.Maybe
-import Data.PSQueue
 import Control.Monad
 import Control.Applicative
 import qualified Data.ByteString.Char8 as B
